@@ -46,5 +46,4 @@ curl -s https://api.docquote.dev/v1/schema
 - `POST /v1/quote/preview` is public — no API key required
 - Protected generation and billing endpoints require `x-api-key` header
 - Autonomous agents should call `/preview` before `/pdf`
-- 
 - DocQuote supports multilingual content. All text fields (company names, item descriptions, notes, etc.) accept any language supported by UTF-8.
