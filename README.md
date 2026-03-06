@@ -1,6 +1,6 @@
 # DocQuote
 
-DocQuote is an AI-native API that generates professional quote PDFs from structured JSON.
+DocQuote is an AI-native API that generates professional sales quote PDFs from structured JSON.
 Built for autonomous agents, workflow automation, and developer integrations.
 
 ## Machine discovery
@@ -23,7 +23,7 @@ Built for autonomous agents, workflow automation, and developer integrations.
 
 ## Core capabilities
 
-- Generate quote PDFs from structured JSON
+- Generate comercial quote PDFs from structured JSON
 - Free preview validation endpoint
 - Idempotent PDF generation
 - Agent-friendly discovery documents
