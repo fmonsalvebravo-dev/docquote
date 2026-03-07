@@ -1,6 +1,7 @@
-# DocQuote
+# DocQuote Platform
 
-DocQuote is an AI-native API that generates professional sales quote PDFs from structured JSON.
+DocQuote Platform is an AI-native document generation API that generates professional sales quotes, purchase orders, and invoices from structured JSON.
+One API key works across all document types; the free tier and credits are shared.
 Built for autonomous agents, workflow automation, and developer integrations.
 
 ## Machine discovery
@@ -17,17 +18,18 @@ Built for autonomous agents, workflow automation, and developer integrations.
 ## Recommended agent workflow
 
 1. Register an API key with `POST /v1/keys/register`
-2. Validate the payload with `POST /v1/quote/preview`
-3. Generate the final PDF with `POST /v1/quote/pdf` using `Idempotency-Key`
+2. Validate with `POST /v1/quote/preview` (or `/v1/po/preview` / `/v1/invoice/preview`)
+3. Generate PDF with `POST /v1/quote/pdf` (or `/v1/po/pdf` / `/v1/invoice/pdf`) using `Idempotency-Key`
 4. Purchase credits with `POST /v1/credits/checkout` when free quota is exhausted
 
 ## Core capabilities
 
-- Generate comercial quote PDFs from structured JSON
-- Free preview validation endpoint
-- Idempotent PDF generation
+- Generate sales quote PDFs, purchase order PDFs, and invoice PDFs from structured JSON
+- One API key for all document types; free tier and credits are shared
+- Free `/preview` endpoints for validation and calculation (no auth, no billing)
+- Idempotent PDF generation (safe to retry without double billing)
 - Agent-friendly discovery documents
-- Credit-based usage after free tier
+- Credit-based usage after the 5-generation free tier
 
 ## Example discovery query
 
@@ -41,9 +43,46 @@ curl -s https://api.docquote.dev/identity
 curl -s https://api.docquote.dev/v1/schema
 ```
 
+## Example payloads
+
+Example JSON payloads are available in the [`examples/`](examples/) directory.
+
+```bash
+curl -X POST https://api.docquote.dev/v1/quote/preview \
+  -H "Content-Type: application/json" \
+  -d @examples/preview-minimal.json
+```
+
+## Example request
+
+```bash
+curl -X POST https://api.docquote.dev/v1/quote/preview \
+  -H "Content-Type: application/json" \
+  -d '{
+    "company": { "name": "DocQuote Ltd." },
+    "customer": { "name": "Acme Corp" },
+    "items": [
+      { "name": "Installation service", "qty": 1, "unitPrice": 120 }
+    ]
+  }'
+```
+
+Multilingual payload example:
+
+```json
+{
+  "items": [
+    { "name": "Servicio de instalación", "qty": 1, "unitPrice": 120 }
+  ]
+}
+```
+
+## Multilingual support
+
+DocQuote supports multilingual sales quote content. Agents may send company names, customer names, item descriptions, and notes in any UTF-8 language. The API renders text exactly as provided in the JSON payload.
+
 ## Notes
 
 - `POST /v1/quote/preview` is public — no API key required
 - Protected generation and billing endpoints require `x-api-key` header
 - Autonomous agents should call `/preview` before `/pdf`
-- DocQuote supports multilingual content. All text fields (company names, item descriptions, notes, etc.) accept any language supported by UTF-8.
