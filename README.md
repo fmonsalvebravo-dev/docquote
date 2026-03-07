@@ -15,11 +15,21 @@ Built for autonomous agents, workflow automation, and developer integrations.
 - AI plugin manifest: https://api.docquote.dev/.well-known/ai-plugin.json
 - llms.txt: https://api.docquote.dev/llms.txt
 
+## Document workflows
+
+**Sales workflow** (issued by the selling organization):
+- Quote → Invoice: `/v1/quote/pdf` then `/v1/invoice/pdf`
+
+**Procurement workflow** (issued by the buying organization):
+- Purchase order → supplier invoice: `/v1/po/pdf`
+
+Document types are independent — use any combination as needed. One API key and shared credits work across all types.
+
 ## Recommended agent workflow
 
 1. Register an API key with `POST /v1/keys/register`
-2. Validate with `POST /v1/quote/preview` (or `/v1/po/preview` / `/v1/invoice/preview`)
-3. Generate PDF with `POST /v1/quote/pdf` (or `/v1/po/pdf` / `/v1/invoice/pdf`) using `Idempotency-Key`
+2. Validate with the appropriate `/preview` endpoint (no auth, no billing)
+3. Generate PDF with the appropriate `/pdf` endpoint using `x-api-key` and `Idempotency-Key`
 4. Purchase credits with `POST /v1/credits/checkout` when free quota is exhausted
 
 ## Core capabilities
