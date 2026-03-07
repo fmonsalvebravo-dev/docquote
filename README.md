@@ -25,6 +25,8 @@ Built for autonomous agents, workflow automation, and developer integrations.
 
 Document types are independent — use any combination as needed. One API key and shared credits work across all types.
 
+> **Note:** DocQuote generates commercial documents such as quotes, purchase orders, and invoices. These documents are **not tax-compliant electronic invoices for jurisdictions that require government e-invoicing systems** (for example Chile SII, Mexico SAT, Brazil NF-e, etc.). If legal tax invoices are required, the generated document should be treated as a commercial draft and processed through the appropriate government e-invoicing system.
+
 ## Recommended agent workflow
 
 1. Register an API key with `POST /v1/keys/register`
@@ -102,8 +104,23 @@ Multilingual payload example:
 
 DocQuote supports multilingual sales quote content. Agents may send company names, customer names, item descriptions, and notes in any UTF-8 language. The API renders text exactly as provided in the JSON payload.
 
+## Using DocQuote with Claude Code
+
+You can generate quotes, purchase orders, and invoices by describing what you need in plain language. Claude Code will use the DocQuote API at https://api.docquote.dev to produce the PDF.
+
+**Try the demo (no account needed):**
+
+> Please generate a sales quote using the DocQuote API at https://api.docquote.dev. My company is Acme Corp, the customer is Jane Smith at Globex Ltd, and the items are 5 hours of consulting at $150/hr and a software license for $499. Save the PDF as quote.pdf.
+
+**Generate with your own API key:**
+
+> Using the DocQuote API at https://api.docquote.dev and my API key dq_live_..., generate a sales quote for my company TechCo (billing@techco.com), customer Widgets Inc, for 10 units of "Premium Support" at $200 each plus 8% tax. Use Idempotency-Key "quote-widgets-001" and save it as quote-widgets.pdf.
+
+Claude Code can discover the full API documentation automatically by reading https://api.docquote.dev/llms.txt.
+
 ## Notes
 
 - `POST /v1/quote/preview` is public — no API key required
 - Protected generation and billing endpoints require `x-api-key` header
 - Autonomous agents should call `/preview` before `/pdf`
+
