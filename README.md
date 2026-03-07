@@ -53,9 +53,20 @@ curl -s https://api.docquote.dev/identity
 curl -s https://api.docquote.dev/v1/schema
 ```
 
-## Example payloads
+## Example payloads and curl scripts
 
-Example JSON payloads are available in the [`examples/`](examples/) directory.
+Example JSON payloads and ready-to-run curl scripts are available in the [`examples/`](examples/) directory:
+
+| File | Description |
+|------|-------------|
+| `preview-minimal.json` | Minimal quote payload |
+| `preview-full.json` | Full quote payload with all fields |
+| `po-minimal.json` | Minimal purchase order payload |
+| `po-full.json` | Full purchase order payload |
+| `invoice-full.json` | Full invoice payload |
+| `quote-curl.sh` | Quote preview + PDF generation examples |
+| `po-curl.sh` | Purchase order preview + PDF generation examples |
+| `invoice-curl.sh` | Invoice preview + PDF generation examples |
 
 ```bash
 curl -X POST https://api.docquote.dev/v1/quote/preview \
