@@ -1,6 +1,6 @@
 # DocQuote Platform
 
-DocQuote Platform is an AI-native document generation API that generates professional sales quotes, purchase orders, and invoices from structured JSON.
+DocQuote Platform is an AI-native document generation API that generates professional PDF documents from structured JSON: sales quotes, proforma invoices, invoices, credit notes, receipts, and purchase orders.
 One API key works across all document types; the free tier and credits are shared.
 Built for autonomous agents, workflow automation, and developer integrations.
 
@@ -18,10 +18,14 @@ Built for autonomous agents, workflow automation, and developer integrations.
 ## Document workflows
 
 **Sales workflow** (issued by the selling organization):
-- Quote → Invoice: `/v1/quote/pdf` then `/v1/invoice/pdf`
+- Normal: `quote → proforma (optional) → invoice`
+- Post-payment: `invoice → receipt` (to confirm payment received)
+- Correction: `invoice → credit note` (to reduce or cancel a prior invoice)
+
+Endpoints: `/v1/quote/pdf` · `/v1/proforma/pdf` · `/v1/invoice/pdf` · `/v1/receipt/pdf` · `/v1/credit-note/pdf`
 
 **Procurement workflow** (issued by the buying organization):
-- Purchase order → supplier invoice: `/v1/po/pdf`
+- Purchase order (PO): `/v1/po/pdf`
 
 Document types are independent — use any combination as needed. One API key and shared credits work across all types.
 
@@ -36,7 +40,7 @@ Document types are independent — use any combination as needed. One API key an
 
 ## Core capabilities
 
-- Generate sales quote PDFs, purchase order PDFs, and invoice PDFs from structured JSON
+- Generate quote, proforma invoice, invoice, receipt, credit note, and purchase order PDFs from structured JSON
 - One API key for all document types; free tier and credits are shared
 - Free `/preview` endpoints for validation and calculation (no auth, no billing)
 - Idempotent PDF generation (safe to retry without double billing)
@@ -102,11 +106,11 @@ Multilingual payload example:
 
 ## Multilingual support
 
-DocQuote supports multilingual sales quote content. Agents may send company names, customer names, item descriptions, and notes in any UTF-8 language. The API renders text exactly as provided in the JSON payload.
+DocQuote supports multilingual content across all document types. Agents may send company names, customer names, item descriptions, and notes in any UTF-8 language. The API renders text exactly as provided in the JSON payload.
 
 ## Using DocQuote with Claude Code
 
-You can generate quotes, purchase orders, and invoices by describing what you need in plain language. Claude Code will use the DocQuote API at https://api.docquote.dev to produce the PDF.
+You can generate quotes, proforma invoices, invoices, receipts, credit notes, and purchase orders by describing what you need in plain language. Claude Code will use the DocQuote API at https://api.docquote.dev to produce the PDF.
 
 **Try the demo (no account needed):**
 
@@ -120,7 +124,8 @@ Claude Code can discover the full API documentation automatically by reading htt
 
 ## Notes
 
-- `POST /v1/quote/preview` is public — no API key required
-- Protected generation and billing endpoints require `x-api-key` header
+- All `/preview` endpoints are public — no API key required
+- Protected `/pdf` and billing endpoints require `x-api-key` header
 - Autonomous agents should call `/preview` before `/pdf`
+- Use `Idempotency-Key` on `/pdf` requests — safe to retry without double billing
 
